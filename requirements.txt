@@ -1,0 +1,7 @@
+aiogram==2.25.1
+aiohttp
+openai
+python-dotenv
+requests
+elevenlabs
+gtts
