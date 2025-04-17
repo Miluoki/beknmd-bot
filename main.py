@@ -153,6 +153,8 @@ async def set_lang(msg: Message):
 @dp.message_handler(lambda msg: msg.text in ["English", "Русский", "Español"])
 async def lang_chosen(msg: Message):
     uid = str(msg.from_user.id)
+    if uid not in user_prefs:
+            user_prefs[uid] = {"language": "en", "mode": "wise", "voice": "Sargazy"}
     lang = {"English": "en", "Русский": "ru", "Español": "es"}[msg.text]
     user_prefs[uid]["language"] = lang
     save_prefs()
@@ -167,6 +169,9 @@ async def set_mode_cmd(msg: Message):
 @dp.message_handler(lambda msg: msg.text in ["wise", "meme", "smart"])
 async def vibe_mode(msg: Message):
     uid = str(msg.from_user.id)
+    if uid not in user_prefs:
+            user_prefs[uid] = {"language": "en", "mode": "wise", "voice": "Sargazy"}
+
     user_prefs[uid]["mode"] = msg.text
     save_prefs()
     await msg.answer(f"✅ Vibe set to {msg.text}", reply_markup=types.ReplyKeyboardRemove())
@@ -180,6 +185,9 @@ async def voice_choice(msg: Message):
 @dp.message_handler(lambda msg: msg.text in ["Sargazy", "Kanykey", "Almambet"])
 async def set_voice(msg: Message):
     uid = str(msg.from_user.id)
+    if uid not in user_prefs:
+            user_prefs[uid] = {"language": "en", "mode": "wise", "voice": "Sargazy"}
+
     user_prefs[uid]["voice"] = msg.text
     save_prefs()
     await msg.answer(f"✅ Voice set to {msg.text}", reply_markup=types.ReplyKeyboardRemove())
