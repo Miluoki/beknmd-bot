@@ -71,7 +71,7 @@ async def get_ai_response(prompt: str, user_id: int) -> str:
                 user_context.setdefault(user_id, []).append({"role": "user", "content": prompt})
                 user_context[user_id].append({"role": "assistant", "content": answer})
                 return answer
-            return translate("AI is temporarily unavailable.", lang)
+            return "AI is temporarily unavailable."
 
 async def speak(text: str, user_id: int) -> str:
     prefs = user_prefs.get(str(user_id), {})
@@ -120,6 +120,10 @@ async def ask_cmd(msg: types.Message):
     if user_prefs[uid].get("voice_mode"):
         audio = await speak(reply, uid)
         await msg.answer_voice(types.InputFile(audio))
+
+@dp.message_handler()
+async def fallback(msg: types.Message):
+    await msg.answer("⚠️ Unknown command. Type /ask to chat or /help")
 
 async def on_startup(dp):
     await bot.set_webhook(WEBHOOK_URL)
